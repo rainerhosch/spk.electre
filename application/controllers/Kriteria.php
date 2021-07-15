@@ -49,7 +49,20 @@ class Kriteria extends CI_Controller
             // error
         } else {
             // sukses
-            redirect('Home');
+            redirect('Kriteria');
+        }
+    }
+
+    public function hapus_kriteria($id_kriteria)
+    {
+        // code here...
+        $data = ['id_kriteria' => $id_kriteria];
+        $delete = $this->kriteria->hapus_kriteria($data);
+        if (!$delete) {
+            // error
+        } else {
+            // success
+            redirect('Kriteria');
         }
     }
 }

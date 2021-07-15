@@ -1,47 +1,29 @@
 <div class="row">
-    <?php if ($this->session->userdata('role') != 2) : ?>
-        <div class="col-sm-6 col-lg-3">
-            <!-- Widget -->
-            <a href="<?= base_url('transaksi/pembayaran_spp') ?>" class="widget widget-hover-effect1">
-                <div class="widget-simple">
-                    <div class="widget-icon pull-left themed-background-autumn animation-fadeIn">
-                        <i class="fa fa-file-text"></i>
-                    </div>
-                    <h3 class="widget-content text-right animation-pullDown">
-                        Transaksi <strong>Baru</strong><br>
-                        <small>Pembayaran Manual</small>
-                    </h3>
+    <div class="col-sm-6 col-lg-3">
+        <!-- Widget -->
+        <a href="<?= base_url('#') ?>" class="widget widget-hover-effect1">
+            <div class="widget-simple">
+                <div class="widget-icon pull-left themed-background-autumn animation-fadeIn">
+                    <i class="fa fa-file-text"></i>
                 </div>
-            </a>
-            <!-- END Widget -->
-        </div>
-    <?php else : ?>
-        <div class="col-sm-6 col-lg-3">
-            <!-- Widget -->
-            <a href="#" class="widget widget-hover-effect1">
-                <div class="widget-simple">
-                    <div class="widget-icon pull-left themed-background-autumn animation-fadeIn">
-                        <i class="fa fa-file-text"></i>
-                    </div>
-                    <h3 class="widget-content text-right animation-pullDown">
-                        Laporan <strong>Transaksi</strong><br>
-                        <small>Pembayaran Manual</small>
-                    </h3>
-                </div>
-            </a>
-            <!-- END Widget -->
-        </div>
-    <?php endif; ?>
+                <h3 class="widget-content text-right animation-pullDown">
+                    0 <strong> Data Daerah</strong><br>
+                    <small>Data daerah/Lokasi</small>
+                </h3>
+            </div>
+        </a>
+        <!-- END Widget -->
+    </div>
     <div class="col-sm-6 col-lg-3">
         <!-- Widget -->
         <a href="#" class="widget widget-hover-effect1">
             <div class="widget-simple">
                 <div class="widget-icon pull-left themed-background-spring animation-fadeIn">
-                    <i class="gi gi-usd"></i>
+                    <i class="gi gi-user"></i>
                 </div>
                 <h3 class="widget-content text-right animation-pullDown">
-                    80%<strong> Mhs Aktif</strong><br>
-                    <small>Melunasi Cicilan</small>
+                    10<strong> Alternatif</strong><br>
+                    <small>Data Alternatif</small>
                 </h3>
             </div>
         </a>
@@ -52,11 +34,11 @@
         <a href="#" class="widget widget-hover-effect1">
             <div class="widget-simple">
                 <div class="widget-icon pull-left themed-background-amethyst animation-fadeIn">
-                    <i class="gi gi-user"></i>
+                    <i class="fa fa-file-text"></i>
                 </div>
                 <h3 class="widget-content text-right animation-pullDown">
-                    50 <strong>Mahasiswa</strong>
-                    <small>Tunggakan Semester Ini</small>
+                    5 <strong>Kriteria</strong>
+                    <small>Data Kriteria</small>
                 </h3>
             </div>
         </a>
@@ -67,11 +49,11 @@
         <a href="#" class="widget widget-hover-effect1">
             <div class="widget-simple">
                 <div class="widget-icon pull-left themed-background-fire animation-fadeIn">
-                    <i class="gi gi-envelope"></i>
+                    <i class="fa fa-file-text"></i>
                 </div>
                 <h3 class="widget-content text-right animation-pullDown">
-                    5 <strong>Pesan</strong>
-                    <small>Pembayaran Online</small>
+                    25 <strong>Detail Kriteria</strong>
+                    <small>Data detail kriteria</small>
                 </h3>
             </div>
         </a>
