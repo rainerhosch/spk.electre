@@ -59,7 +59,6 @@
                             </div>
                             <div class="col-md-9">
                                 <input type="text" id="nama_lokasi" name="nama_lokasi" class="form-control validate">
-                                <input type="hidden" id="is_active" name="is_active" value="0">
                             </div>
                         </div>
                         <!-- <div class="md-form mb-5 row">
