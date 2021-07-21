@@ -59,6 +59,19 @@
                     <form action="<?= base_url('Alternatif'); ?>/add_alternatif" method="post" enctype="multipart/form-data">
                         <div class="md-form mb-5 row">
                             <div class="col-md-3">
+                                <label data-error="wrong" data-success="right" for="lokasi">Lokasi</label>
+                            </div>
+                            <div class="col-md-9">
+                                <select id="lokasi" name="lokasi" class="select-select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <option value="x">-- Pilih Lokasi --</option>
+                                    <?php foreach ($data_lokasi as $value) : ?>
+                                        <option value="<?= $value['id_daerah']; ?>"><?= $value['nm_daerah']; ?></option>
+                                    <?php endforeach;  ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="md-form mb-5 row">
+                            <div class="col-md-3">
                                 <label data-error="wrong" data-success="right" for="kd_alternatif">Kode</label>
                             </div>
                             <div class="col-md-9">
@@ -73,27 +86,31 @@
                                 <input type="text" id="nama_alternatif" name="nama_alternatif" class="form-control validate">
                             </div>
                         </div>
-                        <div class="md-form mb-5 row">
-                            <div class="col-md-3">
-                                <label data-error="wrong" data-success="right" for="lokasi">Lokasi</label>
+                        <hr>
+                        <?php
+                        $i = 1;
+                        foreach ($data_kriteria as $c) : ?>
+                            <div class="md-form mb-5 row">
+                                <div class="col-md-3">
+                                    <label data-error="wrong" data-success="right" for="nama_alternatif"><?= $c['nm_kriteria']; ?></label>
+                                </div>
+                                <div class="col-md-9">
+                                    <select id='C<?= $i; ?>' name='C<?= $i; ?>' class="select-select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                        <option value="x">-- Pilih --</option>
+                                        <?php
+                                        $id_kriteria = $c['id_kriteria'];
+                                        $this->db->select('*');
+                                        $this->db->from('tbl_detail_kriteria');
+                                        $this->db->where('id_kriteria', $id_kriteria);
+                                        $response = $this->db->get()->result_array();
+                                        foreach ($response as $v) : ?>
+                                            <option value="<?= $v['nilai']; ?>"><?= $v['nm_detail_kriteria']; ?></option>
+                                        <?php endforeach;  ?>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                                <select id="lokasi" name="lokasi" class="select-select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <option value="x">-- Pilih Lokasi --</option>
-                                    <?php foreach ($data_lokasi as $value) : ?>
-                                        <option value="<?= $value['id_daerah']; ?>"><?= $value['nm_daerah']; ?></option>
-                                    <?php endforeach;  ?>
-                                </select>
-                            </div>
-                        </div>
-                        <!-- <div class="md-form mb-5 row">
-                            <div class="col-md-3">
-                                <label data-error="wrong" data-success="right" for="bobot_lokasi">Bobot</label>
-                            </div>
-                            <div class="col-md-9">
-                                <input type="text" id="bobot_lokasi" name="bobot_lokasi" class="form-control validate">
-                            </div>
-                        </div> -->
+                        <?php $i++;
+                        endforeach;  ?>
                 </div>
 
                 <!--Footer-->

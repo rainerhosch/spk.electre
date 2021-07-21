@@ -14,7 +14,9 @@ class M_kriteria extends CI_Model
     // create or insert
     function tambah_kriteria($data)
     {
-        return $this->db->insert('tbl_kriteria', $data);
+        $this->db->insert('tbl_kriteria', $data);
+        $insert_id = $this->db->insert_id();
+        return $insert_id;
     }
 
     function tambah_kriteria_detail($data)
@@ -30,6 +32,7 @@ class M_kriteria extends CI_Model
         if ($data != null) {
             $this->db->where($data);
         }
+        $this->db->order_by('kd_kriteria');
         return $this->db->get();
     }
 

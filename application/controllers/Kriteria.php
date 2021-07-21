@@ -28,7 +28,7 @@ class Kriteria extends CI_Controller
         $this->load->view('template', $data);
     }
 
-    public function kriteria_detail()
+    public function get_kriteria_detail($id_kriteria)
     {
         // code here...
         $data['title'] = 'SPK ELECTRE';
@@ -39,18 +39,27 @@ class Kriteria extends CI_Controller
 
     public function add_kriteria()
     {
-        $data = [
+        $dataKriteria = [
             'kd_kriteria' => $this->input->post('kode_kriteria'),
             'nm_kriteria' => $this->input->post('nama_kriteria'),
-            // 'bobot_kriteria' => $this->input->post('bobot_kriteria'),
         ];
-        $insert = $this->kriteria->tambah_kriteria($data);
-        if (!$insert) {
-            // error
-        } else {
-            // sukses
-            redirect('Kriteria');
+        $jml_input = count($this->input->post('nama_kriteria_detail'));
+        $kDetail = $this->input->post('nama_kriteria_detail');
+        $kDetailBobot = $this->input->post('bobot');
+
+
+        $insertKriteria = $this->kriteria->tambah_kriteria($dataKriteria);
+        $id_kriteria = $insertKriteria;
+
+        for ($i = 0; $i < $jml_input; $i++) {
+            $dataKriteriaDetail = [
+                'id_kriteria' => $id_kriteria,
+                'nm_detail_kriteria' => $kDetail[$i],
+                'nilai' => $kDetailBobot[$i]
+            ];
+            $this->kriteria->tambah_kriteria_detail($dataKriteriaDetail);
         }
+        redirect('Kriteria');
     }
 
     public function hapus_kriteria($id_kriteria)

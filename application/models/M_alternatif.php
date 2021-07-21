@@ -20,7 +20,7 @@ class M_alternatif extends CI_Model
     function get_data($data = null)
     {
         // code here...
-        $this->db->select('a.id_alternatif, a.kd_alternatif, a.nm_alternatif, d.nm_daerah');
+        $this->db->select('a.id_alternatif, a.kd_alternatif, a.nm_alternatif, d.nm_daerah, a.C1, a.C2, a.C3, a.C4, a.C5');
         $this->db->from('tbl_alternatif a');
         $this->db->join('tbl_daerah d', 'd.id_daerah=a.kd_daerah');
         if ($data != null) {
