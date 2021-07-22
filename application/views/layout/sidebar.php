@@ -18,6 +18,9 @@
                 <li>
                     <a class="<?= $content == 'pages/v_kriteria' ? 'active' : ''; ?>" href="<?= base_url('Kriteria'); ?>"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Kriteria</span></a>
                 </li>
+                <li>
+                    <a class="<?= $content == 'pages/v_subkriteria' ? 'active' : ''; ?>" href="<?= base_url('Kriteria/sub_kriteria'); ?>"><i class="gi gi-table sidebar-nav-icon"></i><span class="sidebar-nav-mini-hide">Sub Kriteria</span></a>
+                </li>
             </ul>
         </div>
     </div>

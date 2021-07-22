@@ -39,7 +39,8 @@ class M_kriteria extends CI_Model
     function get_data_kriteria_detail($data = null)
     {
         $this->db->select('*');
-        $this->db->from('tbl_detail_kriteria');
+        $this->db->from('tbl_detail_kriteria skr');
+        $this->db->join('tbl_kriteria kr', 'kr.id_kriteria=skr.id_kriteria');
         if ($data != null) {
             $this->db->where($data);
         }

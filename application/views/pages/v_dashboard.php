@@ -30,12 +30,12 @@
                 <table id="menu-datatable" class="table table-vcenter table-condensed table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
+                            <!-- <th class="text-center">#</th> -->
                             <!-- <th class="text-center">Lokasi</th> -->
-                            <th class="text-center">Kode</th>
-                            <th class="text-center">Nama</th>
+                            <!-- <th class="text-center">Kode</th> -->
+                            <th class="text-center">Alternatif</th>
                             <?php foreach ($data_kriteria as $i => $val) : ?>
-                                <th class="text-center"><?= $val['nm_kriteria']; ?></th>
+                                <th class="text-center"><?= $val['kd_kriteria']; ?></th>
                             <?php endforeach; ?>
                             <!-- <th class="text-center">C1</th>
                             <th class="text-center">C2</th>
@@ -270,9 +270,9 @@
                         let no = 1;
                         $.each(response, function(i, value) {
                             html += `<tr>`;
-                            html += `<td class="text-center">${no}</td>`;
+                            // html += `<td class="text-center">${no}</td>`;
                             // html += `<td class="text-center">${value.nm_daerah}</td>`;
-                            html += `<td class="text-center">${value.kd_alternatif}</td>`;
+                            // html += `<td class="text-center">${value.kd_alternatif}</td>`;
                             html += `<td class="text-center">${value.nm_alternatif}</td>`;
                             html += `<td class="text-center">${value.C1}</td>`;
                             html += `<td class="text-center">${value.C2}</td>`;
