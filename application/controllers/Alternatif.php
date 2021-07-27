@@ -35,21 +35,31 @@ class Alternatif extends CI_Controller
     {
         // var_dump($this->input->post());
         // die;
+        $kode_alternatif = $this->input->post('kd_alternatif');
+        $data_bobot = $this->input->post('bobot_penilaian');
+
+
         $data = [
             'kd_daerah' => $this->input->post('lokasi'),
-            'kd_alternatif' => $this->input->post('kd_alternatif'),
+            'kd_alternatif' => $kode_alternatif,
             'nm_alternatif' => $this->input->post('nama_alternatif'),
-            'C1' => $this->input->post('C1'),
-            'C2' => $this->input->post('C2'),
-            'C3' => $this->input->post('C3'),
-            'C4' => $this->input->post('C4'),
-            'C5' => $this->input->post('C5')
         ];
-        $insert = $this->alternatif->insert_data($data);
-        if (!$insert) {
+        $insert_id = $this->alternatif->insert_data($data);
+        if ($insert_id == null) {
             // error
         } else {
             // sukses
+            foreach ($data_bobot as $i => $val) {
+                $test = explode("|", $val);
+                $kriteria = $test[0];
+                $penilaian = $test[1];
+                $data_rel = [
+                    'id_alternatif' => $insert_id,
+                    'id_kriteria' => $kriteria,
+                    'id_penilaian' => $penilaian
+                ];
+                $this->alternatif->insert_data_nilai($data_rel);
+            }
             redirect('Alternatif');
         }
     }
@@ -69,9 +79,11 @@ class Alternatif extends CI_Controller
 
     public function get_data_alternatif_perlokasi()
     {
+        // var_dump($this->input->post());
+        // die;
         if ($this->input->is_ajax_request()) {
             $id_lokasi =  $this->input->post('lokasi');
-            $response = $this->alternatif->get_data(['a.kd_daerah' => $id_lokasi])->result_array();
+            $response = $this->alternatif->get_alternatif_perlokasi(['a.kd_daerah' => $id_lokasi])->result_array();
             if (count($response) <= 0) {
                 $data = null;
             } else {

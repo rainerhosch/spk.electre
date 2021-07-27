@@ -6,18 +6,18 @@
                     <h2><?= $page; ?></h2>
                 </div>
                 <button type="button" class="btn btn-primary btnAdd" style="margin-bottom: 5px;" data-toggle="modal" data-target="#addSubKriteria">
-                    Add Sub Kriteria
+                    Add Data Penilaian
                 </button>
-                <table id="menu-datatable" class="table table-vcenter table-condensed table-bordered">
+                <table id="example-datatable" class="table table-vcenter table-condensed table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">Kode Kriteria</th>
-                            <th class="text-center">Sub Kriteria</th>
-                            <th class="text-center">Nilai / Bobot</th>
+                            <!-- <th class="text-center">Kode Kriteria</th> -->
+                            <th class="text-center">Nama Nilai</th>
+                            <th class="text-center">Bobot</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody id="subkriteria_tbody">
+                    <tbody id="nilai_tbody">
                     </tbody>
                 </table>
             </div>
@@ -29,30 +29,15 @@
         <div class="modal-dialog modal-notify modal-warning" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title white-text w-100 font-weight-bold py-2">Tambah Sub Kriteria</h4>
+                    <h4 class="modal-title white-text w-100 font-weight-bold py-2">Tambah Data Penilaian</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" class="white-text">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="<?= base_url('Kriteria'); ?>/add_sub_kriteria" method="post" enctype="multipart/form-data">
-                        <div class="md-form mb-5 row">
-                            <div class="col-md-3">
-                                <label data-error="wrong" data-success="right" for="kriteria">Kriteria</label>
-                            </div>
-                            <div class="col-md-9">
-                                <select id="id_kriteria" name="id_kriteria" class="select-select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                                    <!-- <option value="x">-- Pilih Kriteria --</option> -->
-                                    <?php foreach ($data_kriteria as $i => $val) : ?>
-                                        <option value="<?= $val['id_kriteria']; ?>"><?= $val['nm_kriteria']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <hr>
-                        <h5>Sub Kriteria</h5>
-                        <table id="table_kriteria_detail">
-                            <tbody id="kriteria_detail_tbody">
+                    <form action="<?= base_url('Kriteria'); ?>/add_data_penilaian" method="post" enctype="multipart/form-data">
+                        <table id="table_nilai">
+                            <tbody id="nilai_tbody_modal">
                             </tbody>
                         </table>
                 </div>
@@ -62,7 +47,7 @@
                         <button type="button" id="delete_rows" class="btn btn-danger div_btn_row" disabled><i class="hi hi-minus"></i></button>
                     </div>
                     <div class="col-sm-3 text-right">
-                        <button type="submit" id="simpan" class="btn btn-primary">Simpan</button>
+                        <button type="submit" id="simpan" class="btn btn-primary" disabled>Simpan</button>
                     </div>
                     </form>
                 </div>
@@ -70,34 +55,34 @@
         </div>
     </div>
 
-
-
-
     <script>
         $(document).ready(function() {
-
             $.ajax({
                 type: "POST",
-                url: "get_subkriteria",
+                url: "get_penilaian",
                 serverside: true,
                 dataType: "json",
                 success: function(response) {
                     // console.log(response);
                     let html = ``;
                     $.each(response, function(i, val) {
-                        html += `<tr class="text-center">`;
-                        html += `<td class="text-center">${val.kd_kriteria}</td>`;
-                        html += `<td class="text-center">${val.nm_detail_kriteria}</td>`;
-                        html += `<td class="text-center">${val.nilai}</td>`;
+                        html += `<tr>`;
+                        html += `<td class="text-center">${val.nm_penilaian}</td>`;
+                        html += `<td class="text-center">${val.bobot_penilaian}</td>`;
                         html += `<td class="text-center">
                                     <div class="btn-group btn-group-xs">
-                                        <a edit-id="${val.id_detail_kriteria}" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-default btn_edit_skr" data-original-title="Edit"><i class="fa fa-pencil"></i></a>
-                                        <a delete-id="${val.id_detail_kriteria}" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-danger btn_delete_skr" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                                        <a edit-id="${val.id_penilaian}" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-default btn_edit_skr" data-original-title="Edit"><i class="fa fa-pencil"></i></a>
+                                        <a delete-id="${val.id_penilaian}" href="javascript:void(0)" data-toggle="tooltip" title="" class="btn btn-danger btn_delete_skr" data-original-title="Delete"><i class="fa fa-times"></i></a>
                                     </div>
                                 </td>`;
                         html += `</tr>`;
                     });
-                    $("#subkriteria_tbody").html(html);
+                    $("#nilai_tbody").html(html);
+                    // $(function() {
+                    //     TablesDatatables.init();
+                    // });
+
+
                     // edit function
                     $('.btn_edit_skr').click(function() {
                         let edit_id = $(this).attr("edit-id");
@@ -109,7 +94,7 @@
                         let delete_id = $(this).attr("delete-id");
                         // $.ajax({
                         //     type: "POST",
-                        //     url: "kriteria/hapus_subkriteria",
+                        //     url: "kriteria/hapus_nilai",
                         //     data: {
                         //         id_kriteria: delete_id
                         //     },
@@ -123,14 +108,15 @@
             });
 
             $("#add_rows").click(function() {
-                $("#table_kriteria_detail").each(function() {
+                $(".btn#simpan").prop("disabled", false);
+                $("#table_nilai").each(function() {
                     $(".btn#delete_rows").prop("disabled", false);
-                    $(".btn#simpan").prop("disabled", false);
+                    // $(".btn#simpan").prop("disabled", false);
                     let tds = '<tr>';
-                    inputArray = jQuery('#table_kriteria_detail >tbody >tr').length;
-                    size = jQuery('#table_kriteria_detail >tbody >tr').length + 1,
+                    inputArray = jQuery('#table_nilai >tbody >tr').length;
+                    size = jQuery('#table_nilai >tbody >tr').length + 1,
                         tds += '<td width="60%">';
-                    tds += '<input type="text" id="nama_kriteria_detail_' + inputArray + '" name="nama_kriteria_detail[' + inputArray + ']" class="form-control validate" placeholder="Nama kriteria detail">';
+                    tds += '<input type="text" id="nama_penilaian_' + inputArray + '" name="nama_penilaian[' + inputArray + ']" class="form-control validate" placeholder="Nama Penilaian">';
                     tds += '</td>';
                     tds += '<td width="20%" class="text-center"><input type="text" id="bobot_' + inputArray + '" name="bobot_sub[' + inputArray + ']" class="form-control validate" placeholder="Bobot"></td>';
                     tds += '</tr>';
@@ -146,9 +132,9 @@
             });
             $('#delete_rows').on("click", function() {
                 let jml_trx = size;
-                let last = $('#table_kriteria_detail').find('tr:last');
+                let last = $('#table_nilai').find('tr:last');
                 if (last.is(':first-child')) {
-                    alert('Harus ada setidaknya satu transaksi');
+                    alert('Harus ada setidaknya satu data');
                     $(".btn#delete_rows").prop("disabled", true);
                 } else {
                     last.remove()

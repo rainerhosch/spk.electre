@@ -19,9 +19,9 @@ class M_kriteria extends CI_Model
         return $insert_id;
     }
 
-    function tambah_kriteria_detail($data)
+    function tambah_penilaian($data)
     {
-        return $this->db->insert('tbl_detail_kriteria', $data);
+        return $this->db->insert('tbl_penilaian', $data);
     }
 
     // get data
@@ -36,11 +36,17 @@ class M_kriteria extends CI_Model
         return $this->db->get();
     }
 
-    function get_data_kriteria_detail($data = null)
+    public function get_max_kode()
+    {
+        $this->db->select_max('kd_kriteria');
+        $this->db->from('tbl_kriteria');
+        return $this->db->get();
+    }
+
+    function get_data_penilaian($data = null)
     {
         $this->db->select('*');
-        $this->db->from('tbl_detail_kriteria skr');
-        $this->db->join('tbl_kriteria kr', 'kr.id_kriteria=skr.id_kriteria');
+        $this->db->from('tbl_penilaian');
         if ($data != null) {
             $this->db->where($data);
         }
@@ -59,10 +65,10 @@ class M_kriteria extends CI_Model
         }
     }
 
-    public function hapus_kriteria_detail($data)
+    public function hapus_penilaian($data)
     {
         $this->db->where($data);
-        $this->db->delete('tbl_detail_kriteria');
+        $this->db->delete('tbl_penilaian');
         if ($this->db->affected_rows() > 0) {
             return TRUE;
         } else {

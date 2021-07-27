@@ -1,6 +1,6 @@
 <div id="page-content">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-12">
             <div class="block">
                 <div class="block-title">
                     <h2><?= $page; ?></h2>
@@ -12,7 +12,7 @@
                 <table id="menu-datatable" class="table table-vcenter table-condensed table-bordered">
                     <thead>
                         <tr>
-                            <th class="text-center">#</th>
+                            <!-- <th class="text-center">#</th> -->
                             <th class="text-center">Kode</th>
                             <th class="text-center">Nama</th>
                             <th class="text-center">Tempat</th>
@@ -23,7 +23,7 @@
                         <?php $no = 1;
                         foreach ($data_alternatif as $i => $val) : ?>
                             <tr>
-                                <td class="text-center"><?= $no; ?></td>
+                                <!-- <td class="text-center"><?= $no; ?></td> -->
                                 <td class="text-center"><?= $val['kd_alternatif']; ?></td>
                                 <td class="text-center"><?= $val['nm_alternatif']; ?></td>
                                 <td class="text-center"><?= $val['nm_daerah']; ?></td>
@@ -75,7 +75,8 @@
                                 <label data-error="wrong" data-success="right" for="kd_alternatif">Kode</label>
                             </div>
                             <div class="col-md-9">
-                                <input type="text" id="kd_alternatif" name="kd_alternatif" class="form-control validate" placeholder="Contoh : A1, A2, A3, dst">
+                                <input type="text" id="kd_alternatif" name="kd_alternatif" class="form-control validate" value="" disabled>
+                                <input type="hidden" id="kd_alternatifHD" name="kd_alternatif" class="form-control validate" value="">
                             </div>
                         </div>
                         <div class="md-form mb-5 row">
@@ -95,16 +96,16 @@
                                     <label data-error="wrong" data-success="right" for="nama_alternatif"><?= $c['nm_kriteria']; ?></label>
                                 </div>
                                 <div class="col-md-9">
-                                    <select id='C<?= $i; ?>' name='C<?= $i; ?>' class="select-select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+                                    <select id='bobot_penilaian[]' name='bobot_penilaian[]' class="select-select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
                                         <option value="x">-- Pilih --</option>
                                         <?php
-                                        $id_kriteria = $c['id_kriteria'];
+                                        // $id_kriteria = $c['id_kriteria'];
                                         $this->db->select('*');
-                                        $this->db->from('tbl_detail_kriteria');
-                                        $this->db->where('id_kriteria', $id_kriteria);
+                                        $this->db->from('tbl_penilaian');
+                                        // $this->db->where('id_kriteria', $id_kriteria);
                                         $response = $this->db->get()->result_array();
                                         foreach ($response as $v) : ?>
-                                            <option value="<?= $v['nilai']; ?>"><?= $v['nm_detail_kriteria']; ?></option>
+                                            <option value="<?= $i; ?>|<?= $v['id_penilaian']; ?>"><?= $v['nm_penilaian']; ?> (<?= $v['bobot_penilaian']; ?>)</option>
                                         <?php endforeach;  ?>
                                     </select>
                                 </div>
@@ -123,4 +124,39 @@
             <!--/.Content-->
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.select-select2#lokasi').change(function() {
+                let id_lokasi = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "Alternatif/get_data_alternatif_perlokasi",
+                    data: {
+                        lokasi: id_lokasi
+                    },
+                    serverside: true,
+                    dataType: "json",
+                    success: function(response) {
+                        let new_kode = '';
+                        if (response != null) {
+                            $.each(response, function(i, val) {
+                                str = val.kd_alternatif;
+                                kode = str.substr(1);
+                                sum = parseInt(kode) + 1;
+                                new_kode = 'A' + sum;
+                            });
+
+                        } else {
+                            new_kode = 'A1';
+                        }
+                        $('#kd_alternatifHD').val(new_kode);
+                        $('#kd_alternatif').val(new_kode);
+                        // console.log(new_kode);
+                    }
+                });
+                // console.log(id_lokasi);
+            });
+        });
+    </script>
 </div>

@@ -1,6 +1,6 @@
 <div id="page-content">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-12">
             <div class="block">
                 <div class="block-title">
                     <h2><?= $page; ?></h2>

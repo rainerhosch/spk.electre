@@ -265,7 +265,7 @@
                     serverside: true,
                     dataType: "json",
                     success: function(response) {
-                        // console.log(response);
+                        console.log(response);
                         let html = ``;
                         let no = 1;
                         $.each(response, function(i, value) {

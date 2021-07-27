@@ -39,30 +39,45 @@ class Kriteria extends CI_Controller
         echo json_encode($data);
     }
 
+    public function get_max_kode()
+    {
+        $data = [];
+        if ($this->input->is_ajax_request()) {
+            $response = $this->kriteria->get_max_kode()->row_array();
+            if ($response['kd_kriteria'] != null) {
+                $kode_max = str_split($response['kd_kriteria']);
+                $new_kode = $kode_max[1];
+            } else {
+                $new_kode = 0;
+            }
+            $data = [
+                'status' => 200,
+                'data' => $new_kode + 1
+            ];
+        } else {
+            // errr
+            $data = [
+                'status' => 404,
+                'data' => null
+            ];
+        }
+        echo json_encode($data);
+    }
+
     public function add_kriteria()
     {
-        $dataKriteria = [
-            'kd_kriteria' => $this->input->post('kode_kriteria'),
-            'nm_kriteria' => $this->input->post('nama_kriteria'),
-            'bobot_kr' => $this->input->post('bobot_kriteria'),
-
-        ];
-        // $jml_input = count($this->input->post('nama_kriteria_detail'));
-        // $kDetail = $this->input->post('nama_kriteria_detail');
-        // $kDetailBobot = $this->input->post('bobot');
-
-
-        $insertKriteria = $this->kriteria->tambah_kriteria($dataKriteria);
-        // $id_kriteria = $insertKriteria;
-
-        // for ($i = 0; $i < $jml_input; $i++) {
-        //     $dataKriteriaDetail = [
-        //         'id_kriteria' => $id_kriteria,
-        //         'nm_detail_kriteria' => $kDetail[$i],
-        //         'nilai' => $kDetailBobot[$i]
-        //     ];
-        //     $this->kriteria->tambah_kriteria_detail($dataKriteriaDetail);
-        // }
+        $jml_input = count($this->input->post('kode_kriteria'));
+        $dataKode = $this->input->post('kode_kriteria');
+        $dataNama = $this->input->post('nama_kriteria');
+        $dataBobot = $this->input->post('bobot_w');
+        for ($i = 0; $i < $jml_input; $i++) {
+            $dataKriteria = [
+                'kd_kriteria' => $dataKode[$i],
+                'nm_kriteria' => $dataNama[$i],
+                'bobot_kr' => $dataBobot[$i],
+            ];
+            $insertKriteria = $this->kriteria->tambah_kriteria($dataKriteria);
+        }
         if (!$insertKriteria) {
             // error
             redirect('Kriteria');
@@ -77,37 +92,30 @@ class Kriteria extends CI_Controller
         // code here...
         if ($this->input->is_ajax_request()) {
             $data = ['id_kriteria' => $this->input->post('id_kriteria')];
-            $delete = $this->kriteria->hapus_kriteria($data);
-            if (!$delete) {
-                // error
-                redirect('Kriteria');
-            } else {
-                // success
-                redirect('Kriteria');
-            }
+            $this->kriteria->hapus_kriteria($data);
         }
     }
 
 
     //=============================== sub kriteria ===============================
-    public function sub_kriteria()
+    public function penilaian()
     {
         // code here...
         $data['title'] = 'SPK ELECTRE';
-        $data['page'] = 'Sub Kriteria';
-        $data['content'] = 'pages/v_subkriteria';
+        $data['page'] = 'Nilai';
+        $data['content'] = 'pages/v_nilai_tingkat_kepentingan';
 
         $data['data_kriteria'] = $this->kriteria->get_data_kriteria()->result_array();
         $this->load->view('template', $data);
     }
 
-    public function get_subkriteria()
+    public function get_penilaian()
     {
         if ($this->input->is_ajax_request()) {
             $id_kriteria = $this->input->post('id_kriteria');
             if ($id_kriteria != null) {
                 $kondisi = ['skr.id_kriteria' => $id_kriteria];
-                $response = $this->kriteria->get_data_kriteria_detail($kondisi)->result_array();
+                $response = $this->kriteria->get_data_penilaian($kondisi)->result_array();
                 if (count($response) > 0) {
                     $data = [
                         'status' => false,
@@ -116,11 +124,12 @@ class Kriteria extends CI_Controller
                 } else {
                     $data = [
                         'status' => true,
-                        'msg' => 'Bisa Dihapus!'
+                        'msg' => 'Berhasil Terhapus!'
                     ];
+                    $this->hapus_kriteria($id_kriteria);
                 }
             } else {
-                $data = $this->kriteria->get_data_kriteria_detail()->result_array();
+                $data = $this->kriteria->get_data_penilaian()->result_array();
             }
         } else {
             // errr
@@ -129,30 +138,29 @@ class Kriteria extends CI_Controller
         echo json_encode($data);
     }
 
-    public function add_sub_kriteria()
+    public function add_data_penilaian()
     {
         // var_dump($this->input->post());
         // die;
+        // $id_kriteria = $this->input->post('id_kriteria');
 
-        $jml_input = count($this->input->post('nama_kriteria_detail'));
-        $id_kriteria = $this->input->post('id_kriteria');
-        $kDetail = $this->input->post('nama_kriteria_detail');
-        $kDetailBobot = $this->input->post('bobot_sub');
+        $jml_input = count($this->input->post('nama_penilaian'));
+        $nmPenilaian = $this->input->post('nama_penilaian');
+        $bobotPenilaian = $this->input->post('bobot_sub');
 
         for ($i = 0; $i < $jml_input; $i++) {
-            $dataKriteriaDetail = [
-                'id_kriteria' => $id_kriteria,
-                'nm_detail_kriteria' => $kDetail[$i],
-                'nilai' => $kDetailBobot[$i]
+            $dataPenilaian = [
+                'nm_penilaian' => $nmPenilaian[$i],
+                'bobot_penilaian' => $bobotPenilaian[$i]
             ];
-            $this->kriteria->tambah_kriteria_detail($dataKriteriaDetail);
+            $this->kriteria->tambah_penilaian($dataPenilaian);
         }
         if (!$insertKriteria) {
             // error
-            redirect('Kriteria/sub_kriteria');
+            redirect('Kriteria/penilaian');
         } else {
             // success
-            redirect('Kriteria/sub_kriteria');
+            redirect('Kriteria/penilaian');
         }
     }
 }

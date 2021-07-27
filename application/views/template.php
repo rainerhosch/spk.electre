@@ -25,6 +25,7 @@
     <script src="<?= base_url() ?>assets/proui/js/plugins.js"></script>
     <script src="<?= base_url() ?>assets/proui/js/app.js"></script>
     <script src="<?= base_url() ?>assets/proui/js/pages/index.js"></script>
+    <script src="<?= base_url() ?>assets/proui/js/pages/tablesDatatables.js"></script>
 
     <style>
         .containerX {
